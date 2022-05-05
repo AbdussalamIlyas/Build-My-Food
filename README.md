@@ -1,3 +1,5 @@
+[![CI](https://github.com/AbdussalamIlyas/Build-My-Food/actions/workflows/tests.yml/badge.svg)](https://github.com/AbdussalamIlyas/Build-My-Food/actions/workflows/tests.yml)
+
 # projekt-tutorial
 
 Thema: Build My Food
