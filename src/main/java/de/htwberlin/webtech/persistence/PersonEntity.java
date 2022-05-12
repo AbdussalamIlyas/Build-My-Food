@@ -19,10 +19,15 @@ public class PersonEntity {
     @Column(name = "is_vaccinated")
     private boolean vaccinated;
 
-    public PersonEntity(String firstName, String lastName, boolean vaccinated) {
+    @Column(name = "gender")
+    @Enumerated(value = EnumType.STRING)
+    private Gender gender;
+
+    public PersonEntity(String firstName, String lastName, boolean vaccinated, Gender gender) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.vaccinated = vaccinated;
+        this.gender = gender;
     }
 
     protected PersonEntity() {}
@@ -53,5 +58,13 @@ public class PersonEntity {
 
     public void setVaccinated(boolean vaccinated) {
         this.vaccinated = vaccinated;
+    }
+
+    public Gender getGender() {
+        return gender;
+    }
+
+    public void setGender(Gender gender) {
+        this.gender = gender;
     }
 }
