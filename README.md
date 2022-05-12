@@ -1,9 +1,18 @@
-[![CI](https://github.com/AbdussalamIlyas/Build-My-Food/actions/workflows/tests.yml/badge.svg)](https://github.com/AbdussalamIlyas/Build-My-Food/actions/workflows/tests.yml)
+[![CI](https://github.com/AbdussalamIlyas/fiveingredients-backend/actions/workflows/tests.yml/badge.svg)](https://github.com/AbdussalamIlyas/fiveingredients-backend/actions/workflows/tests.yml)
 
-# projekt-tutorial
+# Backend von Fiveingredients
 
-Thema: Build My Food
+Thema: Five Ingredients
+
+Author:
+- Eren Serkan-Tas
+- Ilyas Abdussalam
 
 Themenbeschreibung: Man gibt in der Webseite, die Zutaten an, welche man zu Hause liegen hat.
 Anhand der ausgewählten Zutaten, stellt
-"Build My Food" passende Gerichte vor.
+"Five Ingredients" passende Gerichte vor.
+
+Auf der Datenbank sind Zutaten wie z.B. Tomaten, Hähnchen Fleisch, Ingwer, Tofu etc gespeichert.
+Der Besucher kann, die auf der gespeicherten Datenbank, per Pop-Up Menü auswählen.
+Je nachdem, werden Gerichte vorgestellt, die der Besucher kochen kann.
+Die Gerichte sind ebenfalls auf der Datenbank gespeichert (z.B. Pizza, Hummus, Pommes, Tomaten-Suppe etc).
