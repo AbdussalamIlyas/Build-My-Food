@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -16,14 +17,20 @@ public class PersonRestController {
 
     private final PersonService personService;
 
-    public PersonRestController(PersonService personRepository) {
-        this.personService = personRepository;
+    public PersonRestController(PersonService personService) {
+        this.personService = personService;
     }
 
     @GetMapping(path = "/api/v1/persons")
     @ResponseStatus(code = HttpStatus.OK)
     public ResponseEntity<List<Person>> fetchPersons() {
         return ResponseEntity.ok(personService.findAll());
+    }
+
+    @GetMapping(path = "/api/v1/persons/{id}")
+    public ResponseEntity<Person> fetchPersonById(@PathVariable Long id) {
+        var person = personService.findById(id);
+        return person != null ? ResponseEntity.ok(person) : ResponseEntity.notFound().build();
     }
 
     @PostMapping(path = "/api/v1/persons")
