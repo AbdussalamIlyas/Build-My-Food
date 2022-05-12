@@ -49,6 +49,12 @@ public class PersonService {
         return fromPersonEntityToPerson(personEntity);
     }
 
+    public boolean deleteById(Long id) {
+        if (!personRepository.existsById(id)) return false;
+        personRepository.deleteById(id);
+        return true;
+    }
+
     private Person fromPersonEntityToPerson(PersonEntity pe) {
         return new Person(
                 pe.getId(),
