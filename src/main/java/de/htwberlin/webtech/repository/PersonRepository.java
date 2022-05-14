@@ -1,5 +1,6 @@
-package de.htwberlin.webtech.persistence;
+package de.htwberlin.webtech.repository;
 
+import de.htwberlin.webtech.persistence.PersonEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

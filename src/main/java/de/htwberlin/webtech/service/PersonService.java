@@ -3,7 +3,7 @@ package de.htwberlin.webtech.service;
 import de.htwberlin.webtech.persistence.Gender;
 import de.htwberlin.webtech.web.api.Person;
 import de.htwberlin.webtech.persistence.PersonEntity;
-import de.htwberlin.webtech.persistence.PersonRepository;
+import de.htwberlin.webtech.repository.PersonRepository;
 import de.htwberlin.webtech.web.api.PersonManipulationRequest;
 import org.springframework.stereotype.Service;
 

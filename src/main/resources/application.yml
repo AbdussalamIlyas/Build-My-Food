@@ -22,3 +22,7 @@ spring:
     init:
       platform: postgres
       mode: always
+webtech:
+  app:
+    jwtSecret: secret-key
+    jwtExpirationMs: 86400000
