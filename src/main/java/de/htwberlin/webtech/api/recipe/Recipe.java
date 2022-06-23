@@ -1,6 +1,10 @@
 package de.htwberlin.webtech.api.recipe;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import de.htwberlin.webtech.api.ingredient.Ingredient;
+import de.htwberlin.webtech.authentication.models.User;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -25,6 +29,12 @@ public class Recipe implements Serializable {
             inverseJoinColumns = { @JoinColumn(name = "ingredient_id") }
     )
     private Set<Ingredient> ingredients = new HashSet<>();
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "user_id", nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JsonIgnore
+    private User user;
 
     //Constructor
     public Recipe() {}
@@ -57,5 +67,13 @@ public class Recipe implements Serializable {
             this.ingredients.remove(ingredient);
             ingredient.getRecipes().remove(this);
         }
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

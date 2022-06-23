@@ -1,5 +1,7 @@
 package de.htwberlin.webtech.authentication.models;
 
+import de.htwberlin.webtech.api.recipe.Recipe;
+
 import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.*;

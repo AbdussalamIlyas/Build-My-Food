@@ -3,6 +3,7 @@ package de.htwberlin.webtech.api.recipe;
 import de.htwberlin.webtech.api.ingredient.Ingredient;
 import de.htwberlin.webtech.api.ingredient.IngredientRepository;
 import de.htwberlin.webtech.authentication.exception.ResourceNotFoundException;
+import de.htwberlin.webtech.authentication.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +22,9 @@ public class RecipeController {
     @Autowired
     IngredientRepository ingredientRepository;
 
+    @Autowired
+    UserRepository userRepository;
+
 
     @GetMapping("/recipes")
     public ResponseEntity<List<Recipe>> getAllRecipes() {
@@ -32,11 +36,14 @@ public class RecipeController {
         return new ResponseEntity<>(recipes, HttpStatus.OK);
     }
 
-    @PostMapping("/recipes")
-    public ResponseEntity<Recipe> createRecipe(@RequestBody Recipe recipe) {
-        Recipe _recipe = recipeRepository.save(new Recipe(recipe.getName()));
-        return new ResponseEntity<>(_recipe, HttpStatus.CREATED);
-
+    @PostMapping("/user/{userId}/recipes")
+    public ResponseEntity<Recipe> createRecipe(@PathVariable(value = "userId") Long userId,
+                                               @RequestBody Recipe recipeRequest) {
+        Recipe recipe = userRepository.findById(userId).map(user -> {
+            recipeRequest.setUser(user);
+            return recipeRepository.save(recipeRequest);
+        }).orElseThrow(() -> new ResourceNotFoundException("Not found User with id = " + userId));
+        return new ResponseEntity<>(recipe, HttpStatus.CREATED);
     }
 
     @GetMapping("/recipes/{id}")
@@ -58,13 +65,12 @@ public class RecipeController {
         return new ResponseEntity<>(recipeRepository.save(recipe), HttpStatus.OK);
     }
 
-    @PutMapping("/recipes/{id}")
-    public ResponseEntity<Recipe> updateRecipe(@PathVariable("id") long id, @RequestBody Recipe recipe) {
-        Recipe _recipe = recipeRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Not found Recipe with id = " + id));
-        _recipe.setName(recipe.getName());
-
-        return new ResponseEntity<>(recipeRepository.save(_recipe), HttpStatus.OK);
+    @PutMapping("/comments/{id}")
+    public ResponseEntity<Recipe> updateComment(@PathVariable("id") long id, @RequestBody Recipe recipeRequest) {
+        Recipe recipe = recipeRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("RecipeId: " + id + "not found"));
+        recipe.setName(recipeRequest.getName());
+        return new ResponseEntity<>(recipeRepository.save(recipe), HttpStatus.OK);
     }
 
     @DeleteMapping("/recipes/{id}")
@@ -78,6 +84,25 @@ public class RecipeController {
     public ResponseEntity<HttpStatus> deleteAllRecipes() {
         recipeRepository.deleteAll();
 
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    // Recipe and User (One-To-Many Relationship)
+    @GetMapping("/user/{userId}/recipes")
+    public ResponseEntity<List<Recipe>> getAllRecipesByUserId(@PathVariable(value = "userId") Long userId) {
+        if (!userRepository.existsById(userId)) {
+            throw new ResourceNotFoundException("Not found User with id = " + userId);
+        }
+        List<Recipe> recipes = recipeRepository.findByUserId(userId);
+        return new ResponseEntity<>(recipes, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/user/{userId}/recipes")
+    public ResponseEntity<List<Recipe>> deleteAllRecipesOfUser(@PathVariable(value = "userId") Long userId) {
+        if (!userRepository.existsById(userId)) {
+            throw new ResourceNotFoundException("Not found User with id = " + userId);
+        }
+        recipeRepository.deleteByUserId(userId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
