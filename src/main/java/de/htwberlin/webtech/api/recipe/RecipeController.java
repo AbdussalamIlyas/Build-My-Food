@@ -2,7 +2,7 @@ package de.htwberlin.webtech.api.recipe;
 
 import de.htwberlin.webtech.api.ingredient.Ingredient;
 import de.htwberlin.webtech.api.ingredient.IngredientRepository;
-import de.htwberlin.webtech.authentication.exception.ResourceNotFoundException;
+import de.htwberlin.webtech.exception.ResourceNotFoundException;
 import de.htwberlin.webtech.authentication.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -70,6 +70,7 @@ public class RecipeController {
         Recipe recipe = recipeRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("RecipeId: " + id + "not found"));
         recipe.setName(recipeRequest.getName());
+        recipe.setDirection(recipeRequest.getDirection());
         return new ResponseEntity<>(recipeRepository.save(recipe), HttpStatus.OK);
     }
 

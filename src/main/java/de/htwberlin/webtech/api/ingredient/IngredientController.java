@@ -2,7 +2,7 @@ package de.htwberlin.webtech.api.ingredient;
 
 import de.htwberlin.webtech.api.recipe.Recipe;
 import de.htwberlin.webtech.api.recipe.RecipeRepository;
-import de.htwberlin.webtech.authentication.exception.ResourceNotFoundException;
+import de.htwberlin.webtech.exception.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

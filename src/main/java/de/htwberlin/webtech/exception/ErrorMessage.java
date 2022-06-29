@@ -1,4 +1,4 @@
-package de.htwberlin.webtech.authentication.exception;
+package de.htwberlin.webtech.exception;
 
 import java.util.Date;
 public class ErrorMessage {

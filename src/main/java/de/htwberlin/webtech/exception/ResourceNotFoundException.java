@@ -1,4 +1,4 @@
-package de.htwberlin.webtech.authentication.exception;
+package de.htwberlin.webtech.exception;
 
 public class ResourceNotFoundException extends RuntimeException {
     private static final long serialVersionUID = 1L;

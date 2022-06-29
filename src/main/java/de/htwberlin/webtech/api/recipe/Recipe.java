@@ -22,6 +22,9 @@ public class Recipe implements Serializable {
     @Column(name = "name")
     private String name;
 
+    @Column(name = "direction")
+    private String direction;
+
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "recipe_ingredient",
@@ -39,8 +42,9 @@ public class Recipe implements Serializable {
     //Constructor
     public Recipe() {}
 
-    public Recipe(String name) {
+    public Recipe(String name, String direction) {
         this.name = name;
+        this.direction = direction;
     }
 
     //Getter und Setter
@@ -55,6 +59,14 @@ public class Recipe implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getDirection() {
+        return direction;
+    }
+
+    public void setDirection(String direction) {
+        this.direction = direction;
     }
 
     public Set<Ingredient> getIngredients() {
