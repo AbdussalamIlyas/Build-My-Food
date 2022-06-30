@@ -71,6 +71,7 @@ public class RecipeController {
                 .orElseThrow(() -> new ResourceNotFoundException("RecipeId: " + id + "not found"));
         recipe.setName(recipeRequest.getName());
         recipe.setDirection(recipeRequest.getDirection());
+        recipe.setDescription(recipeRequest.getDescription());
         return new ResponseEntity<>(recipeRepository.save(recipe), HttpStatus.OK);
     }
 
