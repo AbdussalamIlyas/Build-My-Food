@@ -1,5 +1,7 @@
 package de.htwberlin.webtech.api.recipe;
 
+import de.htwberlin.webtech.api.file.File;
+import de.htwberlin.webtech.api.file.FileRepository;
 import de.htwberlin.webtech.api.ingredient.Ingredient;
 import de.htwberlin.webtech.api.ingredient.IngredientRepository;
 import de.htwberlin.webtech.exception.ResourceNotFoundException;
@@ -9,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,6 +27,9 @@ public class RecipeController {
 
     @Autowired
     UserRepository userRepository;
+
+    @Autowired
+    FileRepository fileRepository;
 
 
     @GetMapping("/recipes")
@@ -63,6 +69,29 @@ public class RecipeController {
         Ingredient ingredient = ingredientRepository.findById(ingredientId).get();
         recipe.getIngredients().add(ingredient);
         return new ResponseEntity<>(recipeRepository.save(recipe), HttpStatus.OK);
+    }
+
+    //Add Image to a Recipe
+    @PutMapping("/recipes/{recipeId}/images/{imageId}")
+    ResponseEntity<Recipe> addImageToRecipe(
+            @PathVariable Long recipeId,
+            @PathVariable String imageId
+    ) {
+        Recipe recipe = recipeRepository.findById(recipeId).get();
+        File image = fileRepository.findById(imageId).get();
+        recipe.setImage(image);
+        return new ResponseEntity<>(recipeRepository.save(recipe), HttpStatus.OK);
+    }
+
+    //Get Image File by RecipeId
+    @GetMapping("/recipes/{id}/image")
+    @Transactional
+    ResponseEntity<File> getImageOfRecipe(@PathVariable Long id) {
+        if(!recipeRepository.existsById(id)) {
+            throw new ResourceNotFoundException("Not found Recipie with id = " + id);
+        }
+        File image = fileRepository.findFileByRecipeId(id);
+        return new ResponseEntity<>(image, HttpStatus.OK);
     }
 
     @PutMapping("/comments/{id}")

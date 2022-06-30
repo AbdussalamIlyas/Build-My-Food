@@ -1,6 +1,7 @@
 package de.htwberlin.webtech.api.recipe;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import de.htwberlin.webtech.api.file.File;
 import de.htwberlin.webtech.api.ingredient.Ingredient;
 import de.htwberlin.webtech.authentication.models.User;
 import org.hibernate.annotations.OnDelete;
@@ -41,6 +42,14 @@ public class Recipe implements Serializable {
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
     private User user;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinTable(name = "recipe_image",
+            joinColumns =
+                    { @JoinColumn(name = "recipe_id", referencedColumnName = "id") },
+            inverseJoinColumns =
+                    { @JoinColumn(name = "image_id", referencedColumnName = "id") })
+    private File image;
 
     //Constructor
     public Recipe() {}
@@ -99,5 +108,13 @@ public class Recipe implements Serializable {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public File getImage() {
+        return image;
+    }
+
+    public void setImage(File image) {
+        this.image = image;
     }
 }

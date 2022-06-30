@@ -40,6 +40,7 @@ public class FileController {
                     .path(dbFile.getId())
                     .toUriString();
             return new ResponseFile(
+                    dbFile.getId(),
                     dbFile.getName(),
                     fileDownloadUri,
                     dbFile.getType(),

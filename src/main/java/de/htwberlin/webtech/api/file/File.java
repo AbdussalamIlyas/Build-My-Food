@@ -1,5 +1,7 @@
 package de.htwberlin.webtech.api.file;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import de.htwberlin.webtech.api.recipe.Recipe;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -18,7 +20,11 @@ public class File {
     private String type;
 
     @Lob
+    @JsonIgnore
     private byte[] data;
+
+    @OneToOne(mappedBy = "image")
+    private Recipe recipe;
 
     public File() {
     }
