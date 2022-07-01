@@ -1,5 +1,6 @@
 package de.htwberlin.webtech.authentication.models;
 
+import de.htwberlin.webtech.api.ingredient.Ingredient;
 import de.htwberlin.webtech.api.recipe.Recipe;
 
 import java.util.HashSet;
@@ -33,7 +34,7 @@ public class User {
     @Size(max = 120)
     private String password;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(	name = "user_roles",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
@@ -80,6 +81,10 @@ public class User {
     }
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
+    }
+
+    public void removeRole(long roleId) {
+        this.roles.stream().filter(r -> r.getId() == roleId).findFirst().ifPresent(role -> this.roles.remove(role));
     }
 
 }
