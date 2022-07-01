@@ -3,6 +3,8 @@ package de.htwberlin.webtech.api.file;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import de.htwberlin.webtech.api.recipe.Recipe;
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 
@@ -24,6 +26,7 @@ public class File {
     private byte[] data;
 
     @OneToOne(mappedBy = "image")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Recipe recipe;
 
     public File() {

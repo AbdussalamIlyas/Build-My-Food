@@ -23,6 +23,7 @@ public class Recipe implements Serializable {
     @Column(name = "name")
     private String name;
 
+    @Lob
     @Column(name = "direction")
     private String direction;
 

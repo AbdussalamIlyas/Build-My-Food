@@ -9,6 +9,7 @@ import de.htwberlin.webtech.authentication.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.transaction.Transactional;
@@ -17,6 +18,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api")
+@CrossOrigin
 public class RecipeController {
 
     @Autowired
@@ -94,8 +96,8 @@ public class RecipeController {
         return new ResponseEntity<>(image, HttpStatus.OK);
     }
 
-    @PutMapping("/comments/{id}")
-    public ResponseEntity<Recipe> updateComment(@PathVariable("id") long id, @RequestBody Recipe recipeRequest) {
+    @PutMapping("/recipes/{id}")
+    public ResponseEntity<Recipe> updateRecipe(@PathVariable("id") long id, @RequestBody Recipe recipeRequest) {
         Recipe recipe = recipeRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("RecipeId: " + id + "not found"));
         recipe.setName(recipeRequest.getName());
@@ -120,6 +122,8 @@ public class RecipeController {
 
     // Recipe and User (One-To-Many Relationship)
     @GetMapping("/user/{userId}/recipes")
+    @Transactional
+    @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
     public ResponseEntity<List<Recipe>> getAllRecipesByUserId(@PathVariable(value = "userId") Long userId) {
         if (!userRepository.existsById(userId)) {
             throw new ResourceNotFoundException("Not found User with id = " + userId);
