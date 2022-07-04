@@ -103,6 +103,10 @@ public class Recipe implements Serializable {
         }
     }
 
+    public void removeAllIngredients() {
+        ingredients.clear();
+    }
+
     public User getUser() {
         return user;
     }

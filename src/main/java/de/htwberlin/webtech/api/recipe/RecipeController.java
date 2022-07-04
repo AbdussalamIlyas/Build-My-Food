@@ -140,5 +140,16 @@ public class RecipeController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
+    @DeleteMapping("/recipes/{recipeId}/images")
+    public ResponseEntity<HttpStatus> deleteImageFromRecipe(@PathVariable(value = "recipeId") Long recipeId) {
+        Recipe recipe = recipeRepository.findById(recipeId)
+                .orElseThrow(() -> new ResourceNotFoundException("Not found Recipe with id = " + recipeId));
+
+
+        recipeRepository.save(recipe);
+
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
 
 }

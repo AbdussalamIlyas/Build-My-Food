@@ -65,6 +65,17 @@ public class IngredientController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
+    @DeleteMapping("/recipes/{recipeId}/ingredients")
+    public ResponseEntity<HttpStatus> deleteAllIngredientsFromRecipe(@PathVariable(value = "recipeId") Long recipeId) {
+        Recipe recipe = recipeRepository.findById(recipeId)
+                .orElseThrow(() -> new ResourceNotFoundException("Not found Recipe with id = " + recipeId));
+
+        recipe.removeAllIngredients();
+        recipeRepository.save(recipe);
+
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
     @DeleteMapping("/ingredients/{id}")
     public ResponseEntity<HttpStatus> deleteIngredient(@PathVariable("id") long id) {
         ingredientRepository.deleteById(id);

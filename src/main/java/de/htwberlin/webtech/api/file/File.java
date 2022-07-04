@@ -22,7 +22,6 @@ public class File {
     private String type;
 
     @Lob
-    @JsonIgnore
     private byte[] data;
 
     @OneToOne(mappedBy = "image")
