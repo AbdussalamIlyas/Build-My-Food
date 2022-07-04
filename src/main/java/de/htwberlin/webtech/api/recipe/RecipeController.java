@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
 import javax.transaction.Transactional;
@@ -137,17 +138,6 @@ public class RecipeController {
             throw new ResourceNotFoundException("Not found User with id = " + userId);
         }
         recipeRepository.deleteByUserId(userId);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-    }
-
-    @DeleteMapping("/recipes/{recipeId}/images")
-    public ResponseEntity<HttpStatus> deleteImageFromRecipe(@PathVariable(value = "recipeId") Long recipeId) {
-        Recipe recipe = recipeRepository.findById(recipeId)
-                .orElseThrow(() -> new ResourceNotFoundException("Not found Recipe with id = " + recipeId));
-
-
-        recipeRepository.save(recipe);
-
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
